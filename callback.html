@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connected - NARA Studio</title>
+<style>body{max-width:680px;margin:40px auto;padding:0 16px;font-family:system-ui,sans-serif;line-height:1.6}code{word-break:break-all;background:#eee;padding:8px;display:block}</style>
+</head>
+<body>
+<h1>NARA Studio</h1>
+<p id="msg">Waiting for TikTok…</p>
+<code id="code" hidden></code>
+<script>
+// หน้าเว็บ static รับ code จาก TikTok แล้วส่งต่อให้ worker ในเครื่อง (redirect URI ต้องเป็น https จึงชี้ localhost ตรง ๆ ไม่ได้)
+const q = new URLSearchParams(location.search), code = q.get('code');
+if (code) {
+  document.getElementById('msg').textContent = 'Connecting to your local NARA Studio…';
+  location.replace('http://127.0.0.1:8000/tiktok/callback?' + q.toString());
+} else {
+  document.getElementById('msg').textContent = 'Authorization was not completed: ' + (q.get('error_description') || q.get('error') || 'no code received');
+}
+</script>
+</body>
+</html>
